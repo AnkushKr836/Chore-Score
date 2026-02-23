@@ -9,19 +9,15 @@
 </head>
 <body>
 
-  <!-- ===== TOPBAR ===== -->
   <div class="kid-topbar">
     <div class="kid-logo">Earn <span>&</span> Learn 🎮</div>
-    <div class="kid-points-pill">
-      🌟 <span id="kid-points-display">0</span> pts
-    </div>
+    <div class="kid-points-pill">🌟 <span id="kid-points-display">0</span> pts</div>
     <button class="btn-logout" onclick="logout()">Logout</button>
   </div>
 
-  <!-- ===== MAIN CONTENT ===== -->
   <div class="kid-main">
 
-    <!-- Hero Banner -->
+    <!-- Hero -->
     <div class="kid-hero animate-in">
       <div>
         <div class="kid-hero-title" id="kid-hero-title">Hey Champ! 👋</div>
@@ -33,47 +29,97 @@
       <div class="kid-hero-coin">🪙</div>
     </div>
 
-    <!-- Two Column Grid -->
-    <div class="kid-two-col">
+    <!-- Tab Navigation -->
+    <div class="kid-tabs">
+      <button class="kid-tab active" onclick="switchTab('tasks',this)">📋 My Tasks</button>
+      <button class="kid-tab" onclick="switchTab('recurring',this)">🔁 Recurring</button>
+      <button class="kid-tab" onclick="switchTab('stats',this)">📊 My Stats</button>
+    </div>
 
-      <!-- LEFT: Tasks -->
-      <div>
-        <div class="kid-card">
-          <div class="kid-card-title">📋 My Tasks</div>
-          <div id="kid-tasks-list"></div>
-        </div>
-      </div>
-
-      <!-- RIGHT: Savings + Progress + History -->
-      <div>
-        <div class="bank-widget">
-          <div class="bank-label">💰 My Savings Bank</div>
-          <div class="bank-amount" id="kid-savings-display">₹0.00</div>
-          <div class="bank-rate" id="kid-rate-display">+5% Monthly Interest</div>
-        </div>
-
-        <div class="kid-card kid-progress-card">
-          <div class="kid-card-title" style="justify-content:center;">🔥 Tasks Done This Month</div>
-          <div class="big-circle" id="kid-progress-circle">
-            <div class="big-circle-inner" id="kid-progress-num">0/0</div>
+    <!-- TASKS TAB -->
+    <div class="kid-tab-panel active" id="tab-tasks">
+      <div class="kid-two-col">
+        <div>
+          <div class="kid-card">
+            <div class="kid-card-title">⚡ One-Off Tasks</div>
+            <div id="kid-tasks-list"></div>
           </div>
-          <div class="streak-label" id="kid-streak-label">Keep going!</div>
         </div>
-
-        <div class="kid-card">
-          <div class="kid-card-title">📜 History</div>
-          <div id="kid-history-list"></div>
+        <div>
+          <div class="bank-widget">
+            <div class="bank-label">💰 My Savings Bank</div>
+            <div class="bank-amount" id="kid-savings-display">₹0.00</div>
+            <div class="bank-rate" id="kid-rate-display">+5% Monthly Interest</div>
+          </div>
+          <div class="kid-card kid-progress-card">
+            <div class="kid-card-title" style="justify-content:center;">🔥 Progress</div>
+            <div class="big-circle" id="kid-progress-circle">
+              <div class="big-circle-inner" id="kid-progress-num">0/0</div>
+            </div>
+            <div class="streak-label" id="kid-streak-label">Keep going!</div>
+          </div>
         </div>
       </div>
+    </div>
 
-    </div><!-- /kid-two-col -->
-  </div><!-- /kid-main -->
+    <!-- RECURRING TAB -->
+    <div class="kid-tab-panel" id="tab-recurring">
+      <div class="kid-card">
+        <div class="kid-card-title">🔁 Recurring Chores</div>
+        <p style="font-size:13px;color:#aaa;margin-bottom:14px;">These repeat every day / week / month automatically.</p>
+        <div id="kid-recurring-list"></div>
+      </div>
+    </div>
 
-  <!-- ===== PAYDAY MODAL ===== -->
+    <!-- STATS TAB -->
+    <div class="kid-tab-panel" id="tab-stats">
+      <div class="kid-two-col">
+        <div>
+          <!-- Achievement badges -->
+          <div class="kid-card">
+            <div class="kid-card-title">🏅 Achievements</div>
+            <div id="kid-achievements"></div>
+          </div>
+          <!-- History -->
+          <div class="kid-card">
+            <div class="kid-card-title">📜 History</div>
+            <div id="kid-history-list"></div>
+          </div>
+        </div>
+        <div>
+          <!-- Stat summary -->
+          <div class="kid-card">
+            <div class="kid-card-title">📊 My Numbers</div>
+            <div id="kid-stat-numbers"></div>
+          </div>
+          <!-- Mini leaderboard -->
+          <div class="kid-card">
+            <div class="kid-card-title">🏆 Family Rank</div>
+            <div id="kid-leaderboard"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TASK DETAIL MODAL -->
+  <div class="modal-overlay" id="kid-task-detail-modal">
+    <div class="modal">
+      <div class="modal-title" id="kid-detail-title"></div>
+      <div id="kid-detail-body"></div>
+      <div style="margin-top:20px;display:flex;gap:10px;">
+        <button class="kid-btn-secondary" onclick="closeModal('kid-task-detail-modal')">Close</button>
+        <button class="kid-btn-primary" id="kid-detail-submit-btn" onclick="submitFromDetail()" style="display:none;">Mark as Done ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAYDAY MODAL -->
   <div class="modal-overlay" id="kid-payday-overlay">
     <div class="modal">
       <div class="modal-title">🎉 It's Payday!</div>
-      <div class="modal-sub">You earned this month. What do you want to do with it?</div>
+      <div class="modal-sub">You earned this month. What do you want to do?</div>
       <div class="payday-sub">Total Points Earned</div>
       <div class="payday-amount" id="kid-payday-points">0 pts</div>
       <div class="payday-value" id="kid-payday-value">= ₹0.00</div>
@@ -86,15 +132,13 @@
         <div class="payday-btn" onclick="kidPaydayChoice('save')">
           <div class="pb-icon">🏦</div>
           <div class="pb-label">Send to Bank</div>
-          <div class="pb-sub">Earn <span id="modal-interest-rate">5</span>% interest next month!</div>
+          <div class="pb-sub">Earn <span id="modal-interest-rate">5</span>% interest!</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ===== TOAST ===== -->
   <div class="toast" id="toast"></div>
-
   <script src="child.js"></script>
 </body>
 </html>
