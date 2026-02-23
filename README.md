@@ -51,18 +51,6 @@ All data is stored using the browser’s LocalStorage API, ensuring persistence 
 
 No backend integration yet. This is a frontend prototype.
 
----
-
-Chore_Score/
-│
-├── parent.html        # Parent dashboard page
-├── child.html         # Child dashboard page
-│
-├── style.css          # Shared styling (dashboard layout, sidebar, cards, buttons)
-│
-├── parent.js          # Parent-side logic (add tasks, approve, set rate, payday)
-└── child.js           # Child-side logic (view tasks, complete tasks, display points/savings)
-
 
 ---
 
