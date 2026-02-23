@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Earn & Learn — Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+
+  <div id="landing">
+    <div class="logo-lockup">
+      <div class="logo-icon">🪙</div>
+      <div class="logo-title"><span>ChoreScore</span> </div>
+      <div class="logo-sub">The Family Economy Platform — Where Chores Meet Finance</div>
+    </div>
+
+    <div class="login-card">
+      <div class="login-tabs">
+        <button class="login-tab active" onclick="selectRole('parent')">👨‍👩‍👧 Parent</button>
+        <button class="login-tab" onclick="selectRole('kid')">🧒 Kid</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Username</label>
+        <input class="form-input" id="login-username" type="text" placeholder="e.g. parent@home">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" id="login-password" type="password" placeholder="••••••••">
+      </div>
+
+      <button class="btn-primary" onclick="doLogin()">Login →</button>
+
+      <div class="demo-hint">
+        <strong>Parent:</strong> parent@home / pass123<br>
+        <strong>Vikram:</strong> vikram@home / vikpass123<br>
+        <strong>Aria:</strong> aria@home / aria@123
+      </div>
+    </div>
+  </div>
+
+  <script src="login.js"></script>
+</body>
+</html>

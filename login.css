@@ -1,0 +1,254 @@
+/* ===========================
+   EARN & LEARN — login.css
+   =========================== */
+
+/* ===== CSS VARIABLES ===== */
+:root {
+  --green: #00C48C;
+  --green-dark: #00996e;
+  --gold: #FFB800;
+  --coral: #FF6B6B;
+  --navy: #0D1B2A;
+  --navy-mid: #1A2F44;
+  --slate: #8899AA;
+  --white: #FFFFFF;
+}
+
+/* ===== RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--navy);
+  color: var(--white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== LANDING PAGE ===== */
+#landing {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--navy);
+  position: relative;
+  overflow: hidden;
+}
+
+#landing::before {
+  content: '';
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(0, 196, 140, 0.12) 0%, transparent 70%);
+  top: -200px;
+  right: -200px;
+  border-radius: 50%;
+}
+
+#landing::after {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255, 184, 0, 0.08) 0%, transparent 70%);
+  bottom: -150px;
+  left: -150px;
+  border-radius: 50%;
+}
+
+/* ===== LOGO ===== */
+.logo-lockup {
+  text-align: center;
+  margin-bottom: 48px;
+  position: relative;
+  z-index: 1;
+  animation: fadeDown 0.7s ease both;
+}
+
+.logo-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, var(--green), var(--gold));
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 38px;
+  margin: 0 auto 16px;
+  box-shadow: 0 8px 40px rgba(0, 196, 140, 0.35);
+}
+
+.logo-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: var(--white);
+}
+
+.logo-title span {
+  color: var(--green);
+}
+
+.logo-sub {
+  font-size: 15px;
+  color: var(--slate);
+  margin-top: 6px;
+  letter-spacing: 0.5px;
+}
+
+/* ===== LOGIN CARD ===== */
+.login-card {
+  background: var(--navy-mid);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 24px;
+  padding: 40px 44px;
+  width: 420px;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 0.7s 0.15s ease both;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+}
+
+/* Role Tabs */
+.login-tabs {
+  display: flex;
+  background: var(--navy);
+  border-radius: 12px;
+  padding: 4px;
+  margin-bottom: 28px;
+  gap: 4px;
+}
+
+.login-tab {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--slate);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.login-tab.active {
+  background: var(--green);
+  color: var(--navy);
+  font-weight: 600;
+}
+
+/* Form Elements */
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--slate);
+  margin-bottom: 8px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 13px 16px;
+  background: var(--navy);
+  border: 1.5px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  transition: border-color 0.2s;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: var(--green);
+}
+
+.form-input::placeholder {
+  color: rgba(136, 153, 170, 0.5);
+}
+
+/* Login Button */
+.btn-primary {
+  width: 100%;
+  padding: 14px;
+  background: var(--green);
+  border: none;
+  border-radius: 12px;
+  color: var(--navy);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 8px;
+}
+
+.btn-primary:hover {
+  background: var(--green-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(0, 196, 140, 0.35);
+}
+
+/* Demo Credentials Hint */
+.demo-hint {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 12px;
+  color: var(--slate);
+  line-height: 1.9;
+}
+
+.demo-hint strong {
+  color: var(--gold);
+}
+
+/* Error Message */
+.login-error {
+  color: var(--coral);
+  font-size: 13px;
+  text-align: center;
+  margin-top: 12px;
+  padding: 10px;
+  background: rgba(255, 107, 107, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 107, 107, 0.25);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 500px) {
+  .login-card {
+    width: 95vw;
+    padding: 28px 20px;
+  }
+
+  .logo-title {
+    font-size: 32px;
+  }
+}

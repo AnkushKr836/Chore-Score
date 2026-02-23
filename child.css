@@ -1,0 +1,523 @@
+/* ===========================
+   EARN & LEARN — child.css
+   =========================== */
+
+/* ===== CSS VARIABLES ===== */
+:root {
+  --green: #00C48C;
+  --gold: #FFB800;
+  --coral: #FF6B6B;
+  --navy: #0D1B2A;
+  --slate: #8899AA;
+  --white: #FFFFFF;
+  --kid-bg: #FFF8F0;
+  --kid-purple: #7B5EA7;
+  --kid-orange: #FF8C42;
+  --kid-green: #56C596;
+}
+
+/* ===== RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Baloo 2', sans-serif;
+  background: var(--kid-bg);
+  color: var(--navy);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===========================
+   TOPBAR
+   =========================== */
+.kid-topbar {
+  background: var(--white);
+  padding: 16px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 3px solid var(--kid-orange);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.kid-logo {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.kid-logo span {
+  color: var(--kid-orange);
+}
+
+.kid-points-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, var(--gold), var(--kid-orange));
+  color: var(--white);
+  padding: 8px 18px;
+  border-radius: 40px;
+  font-size: 16px;
+  font-weight: 800;
+  box-shadow: 0 4px 16px rgba(255, 140, 66, 0.4);
+}
+
+.btn-logout {
+  padding: 8px 18px;
+  background: transparent;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  color: #555;
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-logout:hover {
+  border-color: var(--coral);
+  color: var(--coral);
+}
+
+/* ===========================
+   MAIN LAYOUT
+   =========================== */
+.kid-main {
+  padding: 28px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* ===========================
+   HERO BANNER
+   =========================== */
+.kid-hero {
+  background: linear-gradient(135deg, var(--kid-purple), #5E4B8B);
+  border-radius: 24px;
+  padding: 28px 32px;
+  color: var(--white);
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.kid-hero::before {
+  content: '⭐';
+  position: absolute;
+  right: 120px;
+  top: -10px;
+  font-size: 80px;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.kid-hero-title {
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.kid-hero-sub {
+  font-size: 15px;
+  opacity: 0.8;
+  margin-top: 4px;
+}
+
+.kid-id-badge {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  display: inline-block;
+}
+
+.kid-hero-coin {
+  font-size: 72px;
+  filter: drop-shadow(0 4px 14px rgba(0, 0, 0, 0.3));
+  animation: float 2.5s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+/* ===========================
+   TWO COLUMN GRID
+   =========================== */
+.kid-two-col {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 20px;
+}
+
+/* ===========================
+   KID CARDS
+   =========================== */
+.kid-card {
+  background: var(--white);
+  border-radius: 20px;
+  padding: 22px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+  margin-bottom: 20px;
+}
+
+.kid-card-title {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ===========================
+   TASK ITEMS
+   =========================== */
+.kid-task {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  border-radius: 14px;
+  background: var(--kid-bg);
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 2px solid transparent;
+}
+
+.kid-task:hover {
+  border-color: var(--kid-green);
+  background: rgba(86, 197, 150, 0.08);
+}
+
+.kid-task.done {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.kid-task-check {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2.5px solid var(--kid-green);
+  background: var(--white);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.kid-task.done .kid-task-check {
+  background: var(--kid-green);
+  border-color: var(--kid-green);
+  color: var(--white);
+}
+
+.kid-task-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.kid-task-note {
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 2px;
+}
+
+.kid-task-pts {
+  margin-left: auto;
+  background: linear-gradient(135deg, var(--gold), #f5a700);
+  color: var(--white);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ===========================
+   BANK WIDGET
+   =========================== */
+.bank-widget {
+  background: linear-gradient(135deg, var(--kid-green), #3daa7f);
+  border-radius: 18px;
+  padding: 22px;
+  color: var(--white);
+  margin-bottom: 14px;
+}
+
+.bank-label {
+  font-size: 13px;
+  opacity: 0.85;
+}
+
+.bank-amount {
+  font-size: 38px;
+  font-weight: 800;
+  margin: 6px 0;
+}
+
+.bank-rate {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 4px 12px;
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* ===========================
+   PROGRESS CIRCLE
+   =========================== */
+.kid-progress-card {
+  text-align: center;
+}
+
+.big-circle {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--kid-orange) 0%,
+    var(--gold) var(--pct, 0%),
+    rgba(0, 0, 0, 0.07) 0%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+}
+
+.big-circle-inner {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.streak-label {
+  font-size: 14px;
+  color: var(--slate);
+}
+
+/* ===========================
+   HISTORY LIST
+   =========================== */
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 13px;
+}
+
+.history-item:last-child {
+  border-bottom: none;
+}
+
+.history-amount {
+  font-weight: 700;
+}
+
+.history-amount.positive { color: var(--kid-green); }
+.history-amount.negative { color: var(--coral); }
+
+/* ===========================
+   PAYDAY MODAL
+   =========================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal {
+  background: var(--white);
+  color: var(--navy);
+  border-radius: 24px;
+  padding: 36px;
+  width: 440px;
+  max-width: 95vw;
+  text-align: center;
+  transform: scale(0.95);
+  transition: transform 0.2s;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.modal-overlay.open .modal {
+  transform: scale(1);
+}
+
+.modal-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.modal-sub {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.payday-sub {
+  color: #888;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+
+.payday-amount {
+  font-family: 'Syne', sans-serif;
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--kid-orange);
+  margin: 8px 0;
+}
+
+.payday-value {
+  color: #888;
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.payday-choice {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.payday-btn {
+  padding: 20px 14px;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  cursor: pointer;
+  background: var(--kid-bg);
+  transition: all 0.2s;
+}
+
+.payday-btn:hover {
+  border-color: var(--kid-orange);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 140, 66, 0.2);
+}
+
+.pb-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.pb-label {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.pb-sub {
+  font-size: 12px;
+  color: #888;
+  margin-top: 4px;
+}
+
+/* ===========================
+   TOAST
+   =========================== */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  background: var(--white);
+  border: 1px solid var(--kid-green);
+  color: var(--navy);
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  transform: translateX(120%);
+  transition: transform 0.3s;
+  z-index: 9999;
+  max-width: 300px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.toast.show {
+  transform: translateX(0);
+}
+
+/* ===========================
+   ANIMATIONS
+   =========================== */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-in {
+  animation: fadeUp 0.5s ease both;
+}
+
+/* ===========================
+   SCROLLBAR
+   =========================== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.1); border-radius: 3px; }
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+@media (max-width: 760px) {
+  .kid-two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .kid-hero {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .kid-hero-coin {
+    font-size: 50px;
+  }
+}

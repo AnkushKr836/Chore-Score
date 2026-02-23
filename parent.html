@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Earn & Learn — Parent Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="parent.css">
+</head>
+<body>
+
+  <!-- ===== TOPBAR ===== -->
+  <div class="topbar">
+    <div class="topbar-logo">Earn <span>&</span> Learn</div>
+    <div class="topbar-user">
+      <span>Central Bank</span>
+      <div class="user-avatar">P</div>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <!-- ===== LAYOUT ===== -->
+  <div class="dashboard-layout">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">Main</div>
+        <div class="sidebar-link active" onclick="showSection('overview', this)">
+          <span class="icon">📊</span> Overview
+        </div>
+        <div class="sidebar-link" onclick="showSection('tasks', this)">
+          <span class="icon">✅</span> Task Manager
+        </div>
+        <div class="sidebar-link" onclick="showSection('approvals', this)">
+          <span class="icon">🔔</span> Approvals
+          <span class="notif-dot" id="notif-dot"></span>
+        </div>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Economy</div>
+        <div class="sidebar-link" onclick="showSection('payday', this)">
+          <span class="icon">💸</span> Payday
+        </div>
+        <div class="sidebar-link" onclick="showSection('settings', this)">
+          <span class="icon">⚙️</span> Settings
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+      <!-- OVERVIEW -->
+      <div class="page-section active" id="section-overview">
+        <div class="page-header">
+          <div class="page-title">
+            Family Overview
+            <small>Your household economy at a glance</small>
+          </div>
+        </div>
+        <div class="stats-grid" id="family-stats"></div>
+        <div class="children-grid" id="children-cards"></div>
+      </div>
+
+      <!-- TASK MANAGER -->
+      <div class="page-section" id="section-tasks">
+        <div class="page-header">
+          <div class="page-title">
+            Task Manager
+            <small>Assign chores &amp; track completion</small>
+          </div>
+          <button class="btn-sm btn-green" onclick="openAddTask()">+ New Task</button>
+        </div>
+        <div class="card">
+          <div class="card-title">All Tasks</div>
+          <table class="task-table">
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Assigned To</th>
+                <th>Points</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="tasks-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- APPROVALS -->
+      <div class="page-section" id="section-approvals">
+        <div class="page-header">
+          <div class="page-title">
+            Pending Approvals
+            <small>Verify completed tasks before awarding points</small>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Awaiting Your Review</div>
+          <div id="approvals-body"></div>
+        </div>
+      </div>
+
+      <!-- PAYDAY -->
+      <div class="page-section" id="section-payday">
+        <div class="page-header">
+          <div class="page-title">
+            Payday 💸
+            <small>Trigger end-of-month settlement</small>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Exchange Rate Settings</div>
+          <div class="settings-row">
+            <div class="settings-info">
+              <strong>Points → ₹ Exchange Rate</strong>
+              <p>How much 1 point is worth in rupees</p>
+            </div>
+            <div class="settings-control">
+              <span class="settings-unit">1 pt =</span>
+              <input class="form-input settings-input" id="exchange-rate-display" type="number" value="0.5" step="0.1"
+                onchange="state.parent.exchangeRate = parseFloat(this.value)">
+              <span class="settings-unit">₹</span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Children Summary</div>
+          <table class="task-table">
+            <thead>
+              <tr>
+                <th>Child</th>
+                <th>Current Points</th>
+                <th>Savings Balance</th>
+                <th>Earned This Month (₹)</th>
+              </tr>
+            </thead>
+            <tbody id="payday-tbody"></tbody>
+          </table>
+          <button class="btn-payday" onclick="triggerPayday()">
+            🎉 Trigger End of Month Payday
+          </button>
+        </div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="page-section" id="section-settings">
+        <div class="page-header">
+          <div class="page-title">
+            Settings
+            <small>Configure your family economy</small>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Economy Configuration</div>
+          <div class="settings-row">
+            <div class="settings-info">
+              <strong>Monthly Interest Rate</strong>
+              <p>Return kids earn on banked savings each payday</p>
+            </div>
+            <div class="settings-control">
+              <input class="form-input settings-input" id="interest-rate-input" type="number"
+                value="5" min="0" max="50" onchange="updateInterestRate(this.value)">
+              <span class="settings-unit">%</span>
+            </div>
+          </div>
+          <div class="settings-row">
+            <div class="settings-info">
+              <strong>Exchange Rate</strong>
+              <p>Real-world value of 1 point in ₹</p>
+            </div>
+            <div class="settings-control">
+              <input class="form-input settings-input" id="exchange-rate-input" type="number"
+                value="0.5" step="0.1"
+                onchange="state.parent.exchangeRate = parseFloat(this.value); document.getElementById('exchange-rate-display').value = this.value;">
+              <span class="settings-unit">₹</span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Add a Child Account</div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Child's Name</label>
+              <input class="form-input" id="new-child-name" type="text" placeholder="e.g. Arya">
+            </div>
+            <div class="form-group">
+              <label class="form-label">ID / Username</label>
+              <input class="form-input" id="new-child-id" type="text" placeholder="e.g. 24BAI1531">
+            </div>
+          </div>
+          <button class="btn-sm btn-green" onclick="addChild()" style="margin-top:8px;">
+            Add Child
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /main-content -->
+  </div><!-- /dashboard-layout -->
+
+  <!-- ===== ADD TASK MODAL ===== -->
+  <div class="modal-overlay" id="add-task-modal">
+    <div class="modal">
+      <div class="modal-title">➕ New Task</div>
+      <div class="modal-sub">Create a task and assign it to a child</div>
+      <div class="form-group">
+        <label class="form-label">Task Name</label>
+        <input class="form-input" id="task-name-input" type="text" placeholder="e.g. Wash dishes">
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Point Value</label>
+          <input class="form-input" id="task-points-input" type="number" placeholder="50" min="1">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Assign To</label>
+          <select class="form-input" id="task-assign-input"></select>
+        </div>
+      </div>
+      <div class="modal-btns">
+        <button class="btn-sm btn-outline" onclick="closeModal('add-task-modal')">Cancel</button>
+        <button class="btn-sm btn-green" onclick="addTask()">Create Task</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TOAST ===== -->
+  <div class="toast" id="toast"></div>
+
+  <script src="parent.js"></script>
+</body>
+</html>

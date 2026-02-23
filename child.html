@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Earn & Learn — My Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Baloo+2:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="child.css">
+</head>
+<body>
+
+  <!-- ===== TOPBAR ===== -->
+  <div class="kid-topbar">
+    <div class="kid-logo">Earn <span>&</span> Learn 🎮</div>
+    <div class="kid-points-pill">
+      🌟 <span id="kid-points-display">0</span> pts
+    </div>
+    <button class="btn-logout" onclick="logout()">Logout</button>
+  </div>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="kid-main">
+
+    <!-- Hero Banner -->
+    <div class="kid-hero animate-in">
+      <div>
+        <div class="kid-hero-title" id="kid-hero-title">Hey Champ! 👋</div>
+        <div class="kid-hero-sub">Complete tasks to earn points. Save them to grow richer!</div>
+        <div style="margin-top:16px;">
+          <span class="kid-id-badge">ID: <span id="kid-id-display">—</span></span>
+        </div>
+      </div>
+      <div class="kid-hero-coin">🪙</div>
+    </div>
+
+    <!-- Two Column Grid -->
+    <div class="kid-two-col">
+
+      <!-- LEFT: Tasks -->
+      <div>
+        <div class="kid-card">
+          <div class="kid-card-title">📋 My Tasks</div>
+          <div id="kid-tasks-list"></div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Savings + Progress + History -->
+      <div>
+        <div class="bank-widget">
+          <div class="bank-label">💰 My Savings Bank</div>
+          <div class="bank-amount" id="kid-savings-display">₹0.00</div>
+          <div class="bank-rate" id="kid-rate-display">+5% Monthly Interest</div>
+        </div>
+
+        <div class="kid-card kid-progress-card">
+          <div class="kid-card-title" style="justify-content:center;">🔥 Tasks Done This Month</div>
+          <div class="big-circle" id="kid-progress-circle">
+            <div class="big-circle-inner" id="kid-progress-num">0/0</div>
+          </div>
+          <div class="streak-label" id="kid-streak-label">Keep going!</div>
+        </div>
+
+        <div class="kid-card">
+          <div class="kid-card-title">📜 History</div>
+          <div id="kid-history-list"></div>
+        </div>
+      </div>
+
+    </div><!-- /kid-two-col -->
+  </div><!-- /kid-main -->
+
+  <!-- ===== PAYDAY MODAL ===== -->
+  <div class="modal-overlay" id="kid-payday-overlay">
+    <div class="modal">
+      <div class="modal-title">🎉 It's Payday!</div>
+      <div class="modal-sub">You earned this month. What do you want to do with it?</div>
+      <div class="payday-sub">Total Points Earned</div>
+      <div class="payday-amount" id="kid-payday-points">0 pts</div>
+      <div class="payday-value" id="kid-payday-value">= ₹0.00</div>
+      <div class="payday-choice">
+        <div class="payday-btn" onclick="kidPaydayChoice('cashout')">
+          <div class="pb-icon">💵</div>
+          <div class="pb-label">Cash Out</div>
+          <div class="pb-sub">Get real money from parents</div>
+        </div>
+        <div class="payday-btn" onclick="kidPaydayChoice('save')">
+          <div class="pb-icon">🏦</div>
+          <div class="pb-label">Send to Bank</div>
+          <div class="pb-sub">Earn <span id="modal-interest-rate">5</span>% interest next month!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== TOAST ===== -->
+  <div class="toast" id="toast"></div>
+
+  <script src="child.js"></script>
+</body>
+</html>
