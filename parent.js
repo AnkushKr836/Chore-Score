@@ -3,7 +3,7 @@
    New features: task descriptions, deadlines/time limits,
    recurring tasks (daily/weekly/monthly), statistics, leaderboard
    =========================== */
-
+import { db, collection, addDoc, onSnapshot } from "./firebase.js";
 if (sessionStorage.getItem('role') !== 'parent') {
   window.location.href = 'login.html';
 }
@@ -14,20 +14,10 @@ if (sessionStorage.getItem('role') !== 'parent') {
 const state = {
   parent: { exchangeRate: 0.5, interestRate: 5 },
 
-  children: [
-    { id: 'ARIA01', name: 'Aria',   avatar: '🐱', currentPoints: 320, savingsBalance: 150, history: [] },
-    { id: 'VIK02',  name: 'Vikram', avatar: '🐶', currentPoints: 180, savingsBalance: 60,  history: [] }
-  ],
+ children: [],
 
   // One-off tasks (with optional deadline + description)
-  tasks: [
-    { id: 't1', name: 'Wash Dishes',    desc: 'Use soap and wipe the counter dry.',      points: 40, assignedTo: 'ARIA01', status: 'Completed',         deadline: null,        createdAt: daysAgo(5) },
-    { id: 't2', name: 'Take Out Trash', desc: 'Replace the bag after taking it out.',    points: 30, assignedTo: 'VIK02',  status: 'Awaiting Approval', deadline: todayPlus(1), createdAt: daysAgo(1) },
-    { id: 't3', name: 'Mop the Floor',  desc: 'Use the blue mop and the floor cleaner.', points: 60, assignedTo: 'ARIA01', status: 'Awaiting Approval', deadline: todayPlus(0), createdAt: daysAgo(2) },
-    { id: 't4', name: 'Water Plants',   desc: 'Half a can each plant.',                  points: 20, assignedTo: 'VIK02',  status: 'Pending',           deadline: todayPlus(2), createdAt: daysAgo(0) },
-    { id: 't5', name: 'Make Bed',       desc: 'Straighten sheets and fluff pillows.',    points: 15, assignedTo: 'ARIA01', status: 'Pending',           deadline: todayPlus(-1),createdAt: daysAgo(0) },
-    { id: 't6', name: 'Clean Bathroom', desc: 'Scrub the sink and toilet.',              points: 80, assignedTo: 'VIK02',  status: 'Pending',           deadline: todayPlus(3), createdAt: daysAgo(0) }
-  ],
+  tasks: [],
 
   // Recurring task templates
   recurringTemplates: [
@@ -464,7 +454,7 @@ function openAddTask() {
   openModal('add-task-modal');
 }
 
-function addTask() {
+async function addTask() {
   const name     = document.getElementById('task-name-input').value.trim();
   const desc     = document.getElementById('task-desc-input').value.trim();
   const pts      = parseInt(document.getElementById('task-points-input').value);
@@ -477,16 +467,28 @@ function addTask() {
   let fullDeadline = deadline || null;
   if (deadline && time) fullDeadline = deadline + 'T' + time;
 
-  state.tasks.push({
-    id: 't' + Date.now(), name, desc, points: pts, assignedTo: assigned,
-    status: 'Pending', deadline: fullDeadline, createdAt: new Date().toISOString()
-  });
+  try {
+    await addDoc(collection(db, "tasks"), {
+      name,
+      desc,
+      points: pts,
+      assignedTo: assigned,
+      status: "Pending",
+      deadline: fullDeadline,
+      createdAt: new Date()
+    });
 
-  closeModal('add-task-modal');
-  ['task-name-input','task-desc-input','task-points-input','task-deadline-input','task-time-input']
-    .forEach(id => document.getElementById(id).value = '');
-  renderTasks(); renderOverview(); renderStatistics();
-  showToast('✅ Task "' + name + '" created!');
+    closeModal('add-task-modal');
+
+    ['task-name-input','task-desc-input','task-points-input','task-deadline-input','task-time-input']
+      .forEach(id => document.getElementById(id).value = '');
+
+    showToast('✅ Task "' + name + '" created!');
+
+  } catch (err) {
+    console.error(err);
+    showToast('❌ Failed to create task');
+  }
 }
 
 // ===========================
@@ -617,16 +619,36 @@ function triggerPayday() {
 // ===========================
 function updateInterestRate(val) { state.parent.interestRate = parseFloat(val); showToast('✅ Interest rate set to '+val+'%'); }
 
-function addChild() {
+async function addChild() {
   const name = document.getElementById('new-child-name').value.trim();
   const id   = document.getElementById('new-child-id').value.trim().toUpperCase();
-  if (!name || !id) return showToast('Enter both name and ID!');
+
+  if (!name || !id) {
+    return showToast('Enter both name and ID!');
+  }
+
   const avatars = ['🐱','🐶','🐸','🦊','🐻','🐼'];
-  state.children.push({ id, name, avatar: avatars[state.children.length%avatars.length], currentPoints:0, savingsBalance:0, history:[] });
-  document.getElementById('new-child-name').value = '';
-  document.getElementById('new-child-id').value   = '';
-  renderOverview(); renderStatistics();
-  showToast('✅ '+name+' added!');
+
+  try {
+    await addDoc(collection(db, "children"), {
+      id,
+      name,
+      avatar: avatars[Math.floor(Math.random()*avatars.length)],
+      currentPoints: 0,
+      savingsBalance: 0,
+      history: [],
+      createdAt: new Date()
+    });
+
+    document.getElementById('new-child-name').value = '';
+    document.getElementById('new-child-id').value   = '';
+
+    showToast('✅ ' + name + ' added!');
+
+  } catch (err) {
+    console.error(err);
+    showToast('❌ Failed to add child');
+  }
 }
 
 // ===========================
@@ -646,3 +668,51 @@ function showToast(msg) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
 }
+// ===========================
+// 🔥 LIVE CHILD SYNC
+// ===========================
+onSnapshot(collection(db, "children"), (snapshot) => {
+  state.children = [];
+
+  snapshot.forEach(doc => {
+    state.children.push(doc.data());
+  });
+
+  // refresh UI
+  renderOverview();
+  renderTasks();
+  renderRecurring();
+  renderApprovals();
+  renderStatistics();
+  renderPayday();
+
+});
+
+onSnapshot(collection(db, "tasks"), (snapshot) => {
+  state.tasks = [];
+
+  snapshot.forEach(doc => {
+    state.tasks.push({
+      id: doc.id,
+      ...doc.data()
+    });
+  });
+
+  renderTasks();
+  renderOverview();
+  renderStatistics();
+});
+
+// 🔥 expose functions globally (ONLY ONCE)
+window.showSection = showSection;
+window.approveTask = approveTask;
+window.deleteTask = deleteTask;
+window.toggleRecurring = toggleRecurring;
+window.deleteRecurringTemplate = deleteRecurringTemplate;
+window.openTaskDetail = openTaskDetail;
+window.logout = logout;
+window.addChild = addChild;
+window.openAddTask = openAddTask;
+window.addTask = addTask;
+window.openAddRecurring = openAddRecurring;
+window.addRecurringTask = addRecurringTask;
