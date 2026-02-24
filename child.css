@@ -25,9 +25,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ===========================
-   TOPBAR
-   =========================== */
+
 .kid-topbar {
   background: var(--white);
   padding: 14px 24px;
@@ -354,4 +352,5 @@ body {
   .kid-hero-coin { font-size: 50px; }
   .kid-tabs   { gap: 4px; }
   .kid-tab    { font-size: 12px; padding: 9px 4px; }
+
 }
